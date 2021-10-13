@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: OracleServerlessCaller
+Parameters:
+  Environment:
+    Type: String
+    Default: DEV
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    Timeout: 90
+    Description: ''
+    MemorySize: 200
+    Environment:
+      Variables:
+        host:
+          Ref: Host
+    Tags:
+      Key: PROJECT
+      Value: OracleCaller
+Resources:
+  Autocheckout:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      AutoPublishAlias: !Ref Environment
+      FunctionName: !Join [ "-", [ 'OracleCaller-callerFunction', !Ref Environment] ]
+      Handler: autocheckout/index.handler
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - CloudWatchLogsFullAccess
+   

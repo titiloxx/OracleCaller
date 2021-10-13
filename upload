@@ -1,0 +1,7 @@
+#!/bin/bash
+SECRET='MY_SECRET'
+SAM_BUCKET='oraclecallerproject'
+STACK_NAME='oraclecaller'
+sam package --template-file template.yaml --output-template-file package.yml --s3-bucket $SAM_BUCKET
+sam deploy --template-file package.yml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM --parameter-overrides Environment=$1 SECRET=$COGNITO_REGION --s3-bucket $SAM_BUCKET
+rm package.yml
